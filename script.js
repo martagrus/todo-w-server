@@ -1,6 +1,6 @@
 let $list, $input, $addBtn, $closePU, $cancelBtn, $popInput, $changeBtn;
 let nextId = 1;
-let editedTextId;
+let editedTextId, tasksToShow;
 
 let firstList = ['dog', 'cat', 'food'];
 
@@ -51,14 +51,16 @@ addNewElementToList = (title) => {
 }
 
 let updateListFromServer = async () => {
-    await axios.get('http://195.181.210.249:3000/todo/', {
-        title: title,
-        author: 'Marta',
-    });
-    let listElement = document.createElement('li');
-    $list.appendChild(listElement);
-    //addNewElementToList ();
+    let todos = await axios.get('http://195.181.210.249:3000/todo/');
+        let listElement = document.createElement('li');
+        listElement.innerText = todos.data.map(todos => todos.title).forEach(task => {
+             addNewElementToList(task);
+        });
+        let martasOnly = listElement.filter(el => {
+            return el.author = 'Marta'});
+        $list.appendChild(martasOnly);
 }
+
 
 createElement = (title) => {
     const newElement = document.createElement('li');
@@ -94,16 +96,15 @@ listClickManager = (eventObject) => {
 
 let markAsDone = async (elementId) => {
     document.getElementById(elementId).classList.add('done');
-    await axios.post('http://195.181.210.249:3000/todo/' + elementId, {
+    await axios.put('http://195.181.210.249:3000/todo/' + elementId, {
         author: 'Marta',
+        extra: 'done',
     });
 }
 
 let deleteItem = async (elementId) => {
     document.getElementById(elementId).remove();
-    await axios.delete('http://195.181.210.249:3000/todo/' + elementId, {
-        author: 'Marta',
-    });
+    await axios.delete('http://195.181.210.249:3000/todo/' + elementId);
 }
 
 editListElement = (id) => {
