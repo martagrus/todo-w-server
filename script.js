@@ -35,6 +35,8 @@ let addButtonClickHandler = async() => {
         author: 'Marta',
         extra: 'ToDo',
     });
+    $list.innerHTML = ''; 
+    updateListFromServer();
 }
 
 addNewElementToList = (title, id, extra) => {
@@ -63,6 +65,7 @@ createElement = (title, id, extra) => {
     newElement.appendChild(createNewButton('Edit', "edit-" + id));
     newElement.appendChild(createNewButton('Delete', "delete-" + id));
     
+
     return newElement;
 }
 
