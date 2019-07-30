@@ -40,9 +40,6 @@ let addButtonClickHandler = async() => {
 addNewElementToList = (title, id, extra) => {
     const newElement = createElement(title, id, extra);
     $list.appendChild(newElement);
-    if (extra === 'Done') {
-        document.getElementById(id).classList.add('done');
-    };
 }
 
 let updateListFromServer = async () => {
@@ -59,10 +56,13 @@ createElement = (title, id, extra) => {
     newElement.innerText = title;
     newElement.id = id;
     newElement.extra = extra;
+    if (extra === 'Done') {
+        newElement.classList.add('done');
+    };
     newElement.appendChild(createNewButton('Done', "done-" + id));
     newElement.appendChild(createNewButton('Edit', "edit-" + id));
     newElement.appendChild(createNewButton('Delete', "delete-" + id));
-
+    
     return newElement;
 }
 
