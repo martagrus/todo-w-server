@@ -2,12 +2,9 @@ let $list, $input, $addBtn, $closePU, $cancelBtn, $popInput, $changeBtn;
 let nextId = 1;
 let editedTextId, tasksToShow;
 
-let firstList = ['dog', 'cat', 'food'];
-
 main = () => {
     prepareDOMElements();
     prepareDOMEvents();
-    //prepareInitialList();
     updateListFromServer();
     openPopup();
     closePopup();
@@ -31,46 +28,41 @@ prepareDOMEvents = () => {
     $changeBtn.addEventListener('click', acceptChangeHandler);
 }
 
-//prepareInitialList = () => {
-  //  firstList.forEach(task => {
-  //      addNewElementToList(task);
-  // });
-//}
-
 let addButtonClickHandler = async() => {
     addNewElementToList($input.value);
     await axios.post('http://195.181.210.249:3000/todo/', {
         title: $input.value,
         author: 'Marta',
+        extra: 'ToDo',
     });
 }
 
-addNewElementToList = (title) => {
-    const newElement = createElement(title);
+addNewElementToList = (title, id, extra) => {
+    const newElement = createElement(title, id, extra);
     $list.appendChild(newElement);
+    if (extra === 'Done') {
+        document.getElementById(id).classList.add('done');
+    };
 }
 
 let updateListFromServer = async () => {
     let todos = await axios.get('http://195.181.210.249:3000/todo/');
-        let listElement = document.createElement('li');
-        listElement.innerText = todos.data.map(todos => todos.title).forEach(task => {
-             addNewElementToList(task);
+        todos.data.filter(el => {
+            return el.author === 'Marta';
+        }).forEach(task => {
+            addNewElementToList(task.title, task.id, task.extra);
         });
-        let martasOnly = listElement.filter(el => {
-            return el.author = 'Marta'});
-        $list.appendChild(martasOnly);
 }
 
-
-createElement = (title) => {
+createElement = (title, id, extra) => {
     const newElement = document.createElement('li');
     newElement.innerText = title;
-    newElement.id = nextId;
-    newElement.appendChild(createNewButton('Done', "done-" + nextId));
-    newElement.appendChild(createNewButton('Edit', "edit-" + nextId));
-    newElement.appendChild(createNewButton('Delete', "delete-" + nextId));
+    newElement.id = id;
+    newElement.extra = extra;
+    newElement.appendChild(createNewButton('Done', "done-" + id));
+    newElement.appendChild(createNewButton('Edit', "edit-" + id));
+    newElement.appendChild(createNewButton('Delete', "delete-" + id));
 
-    nextId++;
     return newElement;
 }
 
@@ -94,17 +86,17 @@ listClickManager = (eventObject) => {
     }
 } 
 
-let markAsDone = async (elementId) => {
-    document.getElementById(elementId).classList.add('done');
-    await axios.put('http://195.181.210.249:3000/todo/' + elementId, {
+let markAsDone = async (id) => {
+    document.getElementById(id).classList.add('done');
+    await axios.put('http://195.181.210.249:3000/todo/' + id, {
         author: 'Marta',
-        extra: 'done',
+        extra: 'Done',
     });
 }
 
-let deleteItem = async (elementId) => {
-    document.getElementById(elementId).remove();
-    await axios.delete('http://195.181.210.249:3000/todo/' + elementId);
+let deleteItem = async (id) => {
+    document.getElementById(id).remove();
+    await axios.delete('http://195.181.210.249:3000/todo/' + id);
 }
 
 editListElement = (id) => {
