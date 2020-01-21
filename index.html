@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- <link rel="stylesheet" href="style/reset.css"> -->
+    <link rel="stylesheet" href="style/reset.css">
     <script src="https://kit.fontawesome.com/ac01d24e4e.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Bebas+Neue|Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <title>Marta's To Do List</title>
 </head>
 <body>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="script.js"></script>
-    <section id="newTask" class="new-task">
+    <div id="container">
+        <section id="newTask" class="new-task">
             <h1>TO DO LIST</h1>
-            <input type="text" id="newInput" placeholder="Add new task here">
+            <input type="text" id="newInput" placeholder="Type your task here">
             <button id="addBtn">Add</button>
     </section>
     <section id="list" class="to-do-list">
@@ -23,11 +24,14 @@
     </section>
     <section id="popUp" class="popup">
         <div>
-            <input type="text" id="ppContent" class="popup-content"><button class="popupBTN" id="changeBtn">Change</button><button class="popupBTN" id="cancelBtn">Cancel</button>
+            <input type="text" id="ppContent" class="popup-content">
+            <button class="popupBTN" id="changeBtn">Change</button>
+            <button class="popupBTN" id="cancelBtn">Cancel</button>
             <div>
                 <span id="closePU" class="close-btn"><span><i class="far fa-times-circle"></i></span></span>
             </div>
         </div>
     </section>
+    </div>
 </body>
 </html>

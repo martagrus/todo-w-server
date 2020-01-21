@@ -1,5 +1,5 @@
 ## Description
-Page was built during Frontend Developer Bootcamp at CodersTrust, using API and Postman
+To-do list, that allows to add, change, and delete tasks. Connected to a server. Built by using API and Postman.
 
 ## Built with
 JavaScript, HTML, CSS
